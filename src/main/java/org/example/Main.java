@@ -56,3 +56,32 @@ public class Main {
             }
         }
     }
+
+    public static void processFiles(List<String> filePaths) {
+        for (String path : filePaths) {
+            try (BufferedReader reader = Files.newBufferedReader(Paths.get(path))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    classifyData(line);
+                }
+            } catch (IOException e) {
+                System.err.println("Failed to read file: " + path);
+            }
+        }
+    }
+
+    public static void classifyData(String line) {
+        if (line.matches("^-?\\d+$")) {
+            integers.add(Integer.parseInt(line));
+        } else if (line.matches("^-?\\d*\\.\\d+$")) {
+            floats.add(Double.parseDouble(line));
+        } else {
+            strings.add(line);
+        }
+    }
+
+    public static void writeResults() {
+        writeToFile(integers, DEFAULT_INTEGER_FILE);
+        writeToFile(floats, DEFAULT_FLOAT_FILE);
+        writeToFile(strings, DEFAULT_STRING_FILE);
+    }
