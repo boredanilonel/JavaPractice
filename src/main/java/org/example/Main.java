@@ -19,3 +19,40 @@ public class Main {
     public static final List<Integer> integers = new ArrayList<>();
     public static final List<Double> floats = new ArrayList<>();
     public static final List<String> strings = new ArrayList<>();
+
+    public static void main(String[] args) {
+        try {
+            parseArguments(args);
+            processFiles(Arrays.stream(args).filter(arg -> !arg.startsWith("-")).collect(Collectors.toList()));
+            writeResults();
+            printStatistics();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
+    public static void parseArguments(String[] args) {
+        for (int i = 0; i < args.length; i++) {
+            switch (args[i]) {
+                case "-a":
+                    appendMode = true;
+                    break;
+                case "-o":
+                    if (++i < args.length) outputPath = args[i];
+                    else throw new IllegalArgumentException("Missing path for -o option.");
+                    break;
+                case "-p":
+                    if (++i < args.length) filePrefix = args[i];
+                    else throw new IllegalArgumentException("Missing prefix for -p option.");
+                    break;
+                case "-s":
+                    detailedStats = false;
+                    break;
+                case "-f":
+                    detailedStats = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
