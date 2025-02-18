@@ -40,4 +40,38 @@ public class Main {
             }
         }
     }
+
+    public static long performComputation(int threadNumber) {
+        long startTime = System.currentTimeMillis();
+        long threadId = Thread.currentThread().threadId(); // Сохранение ID потока
+
+        synchronized (consoleLock) {
+            threadIds[threadNumber - 1] = threadId; // Сохранение ID в массив
+            System.out.printf("Thread %d (ID: %d) started.%n", threadNumber, threadId);
+        }
+
+        for (int i = 0; i < PROGRESS_LENGTH; i++) {
+            // Обновление прогресса для этого потока
+            String progressBar = "[" + "#".repeat(i) + " ".repeat(PROGRESS_LENGTH - i) + "]";
+
+            synchronized (consoleLock) {
+                // Перемещение курсора в нужное положение и перезапись строки
+                System.out.printf("\033[%d;0HThread %d (ID: %d) %s\n", threadNumber + 1, threadNumber, threadId, progressBar);
+            }
+
+            try {
+                Thread.sleep(SLEEP_TIME_MS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return -1;
+            }
+        }
+
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        synchronized (consoleLock) {
+            System.out.printf("Thread %d (ID: %d) finished. Execution time: %d ms%n", threadNumber, threadId, elapsedTime);
+        }
+
+        return elapsedTime;
+    }
 }
