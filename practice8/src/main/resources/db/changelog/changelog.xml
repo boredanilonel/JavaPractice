@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="add-tag-1.0.0" author="cool_developer">
+        <tagDatabase tag="v.1.0.0"/>
+    </changeSet>
+
+    <include file="create-payment-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-cash-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-check-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-credit-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-item-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-customer-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-order-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-order_detail-table.xml" relativeToChangelogFile="true"/>
+    <include file="001-auth-tables.xml" relativeToChangelogFile ="true"/>
+
+
+</databaseChangeLog>
